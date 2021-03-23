@@ -1,11 +1,10 @@
 body {
   position: relative;
-  background-image: url("wood.jpg");
+  background-image: url("Assets/wood.jpg");
   background-color: rgb(233, 209, 252);
   background-size: cover;
   background-position: center;
 }
-
 
 .bird {
   position: absolute;
@@ -13,4 +12,3 @@ body {
   top: 50vh;
   left: 0px;
 }
-
