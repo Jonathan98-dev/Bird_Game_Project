@@ -6,47 +6,15 @@ let speed = 10000;
 let obstacleArray = [];
 
 /**
- *Container for the Obstacle
- * @param obstacle the obstacle which is being moved
- * @param startTime saved the time at which the obstacle was created
- */
-class Obstacle {
-
-    constructor(obstacle, startTime) {
-        this.obstacle = obstacle;
-        this.startTime = startTime;
-    }
-
-    /**
-     * changes the position of the obstacle and increased the speed of the movement over time
-     * max speed is reached at .. seconds
-     */
-    move() {
-        if (speed >= 1000) {
-            speed--;
-            this.obstacle.style.right = (100 * (Date.now() - this.startTime)) / speed + "vw";
-        } else {
-            this.obstacle.style.right = (100 * (Date.now() - this.startTime)) / speed + "vw";
-        }
-    }
-
-    getStartTime() {
-        return this.startTime;
-    }
-
-    getObstacle() {
-        return this.obstacle;
-    }
-}
-
-/**
- * Starts the game and creates 3 obstacles every 1.6 seconds 
+ * Starts the game and creates 5 obstacles every 2 seconds 
  */
 function start() {
 
     newObstacle();
-    setTimeout(newObstacle, 3333);
-    setTimeout(newObstacle, 6666);
+    setTimeout(newObstacle, 2000);
+    setTimeout(newObstacle, 4000);
+    setTimeout(newObstacle, 6000);
+    setTimeout(newObstacle, 8000);
     animateObstacle();
 
 }
@@ -69,16 +37,50 @@ function newObstacle() {
 }
 
 /**
+ *Container for the Obstacle
+ * @param obstacle the obstacle which is being moved
+ * @param startTime saved the time at which the obstacle was created
+ */
+class Obstacle {
+
+    constructor(obstacle, startTime) {
+        this.obstacle = obstacle;
+        this.startTime = startTime;
+    }
+
+    /**
+     * changes the position of the obstacle and increased the speed of the movement over time
+     * max speed is reached at 1 seconds
+     */
+    move() {
+
+        if (speed >= 1000) {
+            speed--;
+            this.obstacle.style.right = (100 * (Date.now() - this.startTime)) / speed + "vw";
+        } else {
+            this.obstacle.style.right = (100 * (Date.now() - this.startTime)) / speed + "vw";
+        }
+    }
+
+    getStartTime() {
+        return this.startTime;
+    }
+
+    getObstacle() {
+        return this.obstacle;
+    }
+}
+
+/**
  *  styles the obstacle and gives it a random top position
  *  @param obstacle the obstacle which is being styled
  */
 function obstacleStyle(obstacle) {
 
     obstacle.style.position = "absolute";
-    obstacle.style.width = 100 + "px";
-    obstacle.style.height = 50 + "vh";
-    obstacle.style.backgroundColor = "#5ba48a";
-    obstacle.style.top = Math.floor(Math.random() * 50) + "vh";
+    obstacle.style.height = 100 + "px";
+    obstacle.style.content = 'url("Assets/hawk.gif")';
+    obstacle.style.top = Math.floor(Math.random() * 89) + "vh";
     obstacle.style.right = 0;
 
 }
@@ -115,19 +117,19 @@ function moveBird() {
     switch (event.key) {
 
         case "ArrowLeft":
-            document.getElementById('bird').style.left = document.getElementById('bird').offsetLeft - 10 + "px";
+            document.getElementById('bird').style.left = document.getElementById('bird').offsetLeft - 15 + "px";
             break;
 
         case "ArrowRight":
-            document.getElementById('bird').style.left = document.getElementById('bird').offsetLeft + 10 + "px";
+            document.getElementById('bird').style.left = document.getElementById('bird').offsetLeft + 15 + "px";
             break;
 
         case "ArrowUp":
-            document.getElementById('bird').style.top = document.getElementById('bird').offsetTop - 10 + "px";
+            document.getElementById('bird').style.top = document.getElementById('bird').offsetTop - 15 + "px";
             break;
 
         case "ArrowDown":
-            document.getElementById('bird').style.top = document.getElementById('bird').offsetTop + 10 + "px";
+            document.getElementById('bird').style.top = document.getElementById('bird').offsetTop + 15 + "px";
             break;
     }
 }

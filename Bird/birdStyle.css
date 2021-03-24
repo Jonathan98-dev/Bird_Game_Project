@@ -6,9 +6,11 @@ body {
   background-position: center;
 }
 
+
 .bird {
   position: absolute;
-  height: 100px;
+  height: 150px;
   top: 50vh;
   left: 0px;
 }
+
