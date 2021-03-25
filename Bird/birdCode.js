@@ -108,6 +108,9 @@ function animateObstacle() {
 
 }
 
+
+var xBird = 0;
+var yBird = 40;
 /**
  * Moves the bird, depending on which key is pressed
  * event.key has the value of the pressed key
@@ -117,19 +120,44 @@ function moveBird() {
     switch (event.key) {
 
         case "ArrowLeft":
-            document.getElementById('bird').style.left = document.getElementById('bird').offsetLeft - 15 + "px";
+            if(xBird < 5){
+                console.log("boundary")
+            }else{
+            xBird -= 5;
+            document.getElementById('bird').style.left = xBird + "vw"
+            console.log('X: ' + xBird + ' | ' + 'Y: ' + yBird)
+            }
             break;
+        
 
         case "ArrowRight":
-            document.getElementById('bird').style.left = document.getElementById('bird').offsetLeft + 15 + "px";
+            if(xBird == 90){
+                console.log("boundary")
+            }else{
+            xBird += 5;
+            document.getElementById('bird').style.left = xBird + "vw"
+            console.log('X: ' + xBird + ' | ' + 'Y: ' + yBird)
+            }
             break;
 
         case "ArrowUp":
-            document.getElementById('bird').style.top = document.getElementById('bird').offsetTop - 15 + "px";
+            if(yBird < 5){
+                console.log("boundary")
+            }else{
+            yBird -= 5;
+            document.getElementById('bird').style.top = yBird + "vh"
+            console.log('X: ' + xBird + ' | ' + 'Y: ' + yBird)
+            }
             break;
 
         case "ArrowDown":
-            document.getElementById('bird').style.top = document.getElementById('bird').offsetTop + 15 + "px";
+            if(yBird == 75){
+                console.log("boundary")
+            }else{
+            yBird += 5;
+            document.getElementById('bird').style.top = yBird + "vh"
+            console.log('X: ' + xBird + ' | ' + 'Y: ' + yBird)
+            }
             break;
     }
 }

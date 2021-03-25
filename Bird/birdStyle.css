@@ -1,16 +1,19 @@
-body {
-  position: relative;
-  background-image: url("Assets/wood.jpg");
-  background-color: rgb(233, 209, 252);
-  background-size: cover;
-  background-position: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+body {
+  height: 100%;
+  background-image: url("Assets/wood.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 .bird {
   position: absolute;
   height: 150px;
-  top: 50vh;
-  left: 0px;
+  top: 40vh;
 }
-
