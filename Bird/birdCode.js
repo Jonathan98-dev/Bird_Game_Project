@@ -1,6 +1,7 @@
 
 window.addEventListener("load", start);
-window.addEventListener("keydown", moveBird)
+window.addEventListener("keydown", moveBird);
+window.addEventListener("keyup", stopBird);
 
 let speed = 10000;
 let obstacleArray = [];
@@ -56,10 +57,8 @@ class Obstacle {
 
         if (speed >= 1000) {
             speed--;
+        } 
             this.obstacle.style.right = (100 * (Date.now() - this.startTime)) / speed + "vw";
-        } else {
-            this.obstacle.style.right = (100 * (Date.now() - this.startTime)) / speed + "vw";
-        }
     }
 
     getStartTime() {
@@ -108,56 +107,114 @@ function animateObstacle() {
 
 }
 
+let startTime
+let deltaTime;
+let isPressed = false;
+let birdSpeed;
+let xBird = 0;
+let yBird = 40;
 
-var xBird = 0;
-var yBird = 40;
+function stopBird() {
+    isPressed = false;
+}
+function setTime() {
+    startTime = Date.now();
+    birdSpeed = 50000;
+}
+
 /**
  * Moves the bird, depending on which key is pressed
  * event.key has the value of the pressed key
  */
 function moveBird() {
+    if (!isPressed) {
+        setTime();
+    }
+    isPressed = true
 
     switch (event.key) {
+        case "ArrowRight":
+            function animateBirdRight() {
+
+                deltaTime = (100 * (Date.now() - startTime)) / birdSpeed;
+
+                if (xBird < 90) {
+
+                    xBird += deltaTime;
+                    birdSpeed -= 0.5;
+                    document.getElementById('bird').style.left = xBird + "vw";
+                }
+
+                if (!isPressed) {
+                    return;
+                }
+
+                requestAnimationFrame(animateBirdRight);
+            }
+            requestAnimationFrame(animateBirdRight);
+            break;
 
         case "ArrowLeft":
-            if(xBird < 5){
-                console.log("boundary")
-            }else{
-            xBird -= 5;
-            document.getElementById('bird').style.left = xBird + "vw"
-            console.log('X: ' + xBird + ' | ' + 'Y: ' + yBird)
-            }
-            break;
-        
+            function animateBirdLeft() {
 
-        case "ArrowRight":
-            if(xBird == 90){
-                console.log("boundary")
-            }else{
-            xBird += 5;
-            document.getElementById('bird').style.left = xBird + "vw"
-            console.log('X: ' + xBird + ' | ' + 'Y: ' + yBird)
+                deltaTime = (100 * (Date.now() - startTime)) / birdSpeed;
+
+                if (xBird > 0) {
+
+                    xBird -= deltaTime;
+                    birdSpeed -= 0.5;
+                    document.getElementById('bird').style.left = xBird + "vw";
+                }
+
+                if (!isPressed) {
+                    return;
+                }
+
+                requestAnimationFrame(animateBirdLeft);
             }
+            requestAnimationFrame(animateBirdLeft);
             break;
 
         case "ArrowUp":
-            if(yBird < 5){
-                console.log("boundary")
-            }else{
-            yBird -= 5;
-            document.getElementById('bird').style.top = yBird + "vh"
-            console.log('X: ' + xBird + ' | ' + 'Y: ' + yBird)
+            function animateBirdUp() {
+
+                deltaTime = (100 * (Date.now() - startTime)) / birdSpeed;
+
+                if (yBird > 0) {
+
+                    yBird -= deltaTime;
+                    birdSpeed -= 0.5;
+                    document.getElementById('bird').style.top = yBird + "vh";
+                }
+
+                if (!isPressed) {
+                    return;
+                }
+
+                requestAnimationFrame(animateBirdUp);
             }
+            requestAnimationFrame(animateBirdUp);
             break;
 
         case "ArrowDown":
-            if(yBird == 75){
-                console.log("boundary")
-            }else{
-            yBird += 5;
-            document.getElementById('bird').style.top = yBird + "vh"
-            console.log('X: ' + xBird + ' | ' + 'Y: ' + yBird)
+            function animateBirdDown() {
+
+                deltaTime = (100 * (Date.now() - startTime)) / birdSpeed;
+
+                if (yBird < 82) {
+
+                    yBird += deltaTime;
+                    birdSpeed -= 0.5;
+                    document.getElementById('bird').style.top = yBird + "vh";
+                }
+
+                if (!isPressed) {
+                    return;
+                }
+
+                requestAnimationFrame(animateBirdDown);
             }
+            requestAnimationFrame(animateBirdDown);
             break;
     }
 }
