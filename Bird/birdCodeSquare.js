@@ -144,7 +144,7 @@ function moveBird() {
                     return;
                 }
 
-                if (xBird < 90) {
+                if (xBird < 94) {
 
                     if (birdSpeed <= 1) {
                         pressDuration = (Date.now() - startTime) / 1000;
@@ -197,8 +197,6 @@ function moveBird() {
                     return;
                 }
 
-                pressDuration = (100 * (Date.now() - startTime)) / birdSpeed;
-
                 if (yBird > 0) {
 
                     if (birdSpeed <= 1) {
@@ -225,7 +223,7 @@ function moveBird() {
                     return;
                 }
 
-                if (yBird < 82) {
+                if (yBird < 85) {
 
                     if (birdSpeed <= 1) {
                         pressDuration = (Date.now() - startTime) / 1000;

@@ -5,7 +5,8 @@
 }
 
 body {
-  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
   background-image: url("Assets/wood.jpg");
   background-size: cover;
   background-position: center;
