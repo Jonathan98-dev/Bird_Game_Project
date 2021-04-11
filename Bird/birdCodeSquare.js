@@ -127,9 +127,9 @@ function stopBird() {
 function moveBird() {
 
     if (!isPressed) {
-        startTime = Date.now();
+        startTime = Date.now() - 400;
     }
-
+    
     isPressed = true;
 
     switch (event.key) {
@@ -147,7 +147,7 @@ function moveBird() {
                 if (xBird < 90) {
 
                     if (birdSpeed <= 1) {
-                        pressDuration = ((Date.now() - startTime) / 1000) + 0.5;
+                        pressDuration = (Date.now() - startTime) / 1000;
                         birdSpeed = pressDuration * pressDuration;
                     }
 
@@ -174,7 +174,7 @@ function moveBird() {
                 if (xBird > 0) {
 
                     if (birdSpeed <= 1) {
-                        pressDuration = ((Date.now() - startTime) / 1000) + 0.5;
+                        pressDuration = (Date.now() - startTime) / 1000;
                         birdSpeed = pressDuration * pressDuration;
                     }
 
@@ -202,7 +202,7 @@ function moveBird() {
                 if (yBird > 0) {
 
                     if (birdSpeed <= 1) {
-                        pressDuration = ((Date.now() - startTime) / 1000) + 0.5;
+                        pressDuration = (Date.now() - startTime) / 1000;
                         birdSpeed = pressDuration * pressDuration;
                     }
 
@@ -228,7 +228,7 @@ function moveBird() {
                 if (yBird < 82) {
 
                     if (birdSpeed <= 1) {
-                        pressDuration = ((Date.now() - startTime) / 1000) + 0.5;
+                        pressDuration = (Date.now() - startTime) / 1000;
                         birdSpeed = pressDuration * pressDuration;
                     }
 
