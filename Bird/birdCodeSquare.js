@@ -197,8 +197,6 @@ function moveBird() {
                     return;
                 }
 
-                pressDuration = (100 * (Date.now() - startTime)) / birdSpeed;
-
                 if (yBird > 0) {
 
                     if (birdSpeed <= 1) {
