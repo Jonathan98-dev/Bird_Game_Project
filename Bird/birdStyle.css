@@ -17,4 +17,5 @@ body {
   position: absolute;
   height: 150px;
   top: 40vh;
+  border: 5px solid black;
 }
