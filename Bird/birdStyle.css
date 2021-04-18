@@ -13,7 +13,7 @@ body {
   background-repeat: no-repeat;
 }
 
-.bird {
+#bird {
   position: absolute;
   height: 150px;
   top: 40vh;

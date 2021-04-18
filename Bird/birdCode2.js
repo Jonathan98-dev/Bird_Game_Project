@@ -93,8 +93,8 @@ function detectCollision(obstacle) {
     positionBird = document.getElementById('bird').getBoundingClientRect();
     positionObstacle = obstacle.getBoundingClientRect();
 
-      if    (positionBird.left < positionObstacle.left + positionObstacle.width &&
-            positionBird.left + positionBird.width > positionObstacle.left &&
+      if    (positionBird.left + 16 < positionObstacle.left + positionObstacle.width &&
+            positionBird.left + positionBird.width - 37 > positionObstacle.left &&
             positionBird.top < positionObstacle.top + positionObstacle.height &&
             positionBird.height + positionBird.top > positionObstacle.top) {
 
@@ -137,6 +137,7 @@ function animateObstacle() {
 
 function gameOver() {
 
+    document.getElementById('audio').play();
     alert("Game Over!");
     location.reload();
 
