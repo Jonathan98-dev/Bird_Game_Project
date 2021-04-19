@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background-image: url("../Assets/wood.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#bird {
+  position: absolute;
+  height: 150px;
+  top: 40vh;
+  border: 5px solid black;
+}
