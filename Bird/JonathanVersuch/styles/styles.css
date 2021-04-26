@@ -7,8 +7,10 @@
 body {
   overflow-x: hidden;
   overflow-y: hidden;
+  height: 100vh;
   background-image: url("../Assets/wood.jpg");
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
@@ -16,5 +18,5 @@ body {
   position: absolute;
   height: 150px;
   top: 40vh;
-  border: 5px solid black;
+  /* border: 5px solid black; */
 }

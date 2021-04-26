@@ -3,6 +3,7 @@ import { animateObstacle } from "./functions/animateObstacle.js";
 import { birdControl } from "./functions/birdControls.js";
 
 let gameIsStarted = false;
+
 export const gameManager = () => {
   if (gameIsStarted === false) {
     createNewObstacle();

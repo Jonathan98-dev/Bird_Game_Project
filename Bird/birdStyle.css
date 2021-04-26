@@ -11,11 +11,12 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  width: 100%;
 }
 
 #bird {
   position: absolute;
   height: 150px;
   top: 40vh;
-  border: 5px solid black;
-}
+  /* border: 5px solid black;
+} */
