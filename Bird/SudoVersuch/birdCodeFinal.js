@@ -1,3 +1,4 @@
+
 window.addEventListener("load", start);
 window.addEventListener("keydown", moveBird);
 window.addEventListener("keyup", stopBird);
@@ -6,17 +7,75 @@ let speed = 10000;
 let obstacleArray = [];
 let positionBird;
 let positionObstacle;
-let startTime;
+let startTimeGame;
+let startTimeBird;
 let pressDuration;
 let isPressed = false;
 let birdSpeed = 0;
 let xBird = 0;
 let yBird = 375;
+let userName;
+let score;
+
+//-------------- HIGHSCORE --------------
+
+function setUserName(){
+  let user = window.prompt("Enter your name: ");
+  if (user === "") {
+    user = "User";
+  }
+  return user;
+}
+
+const setHighscore =  async(score, player) => {
+  const data = { score: `${score}`, player: `${player}` };
+
+  const response = fetch('http://birdapi.medialabs.at/', {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log("Success: ", data))
+    .catch((error) => {
+      console.log("Error:", error);
+    });
+};
+
+const getHighScore = async () => {
+  const response = await fetch("http://birdapi.medialabs.at/");
+  if (response.status !== 200) {
+    throw new Error("cannot get scores");
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+const displayPlayerScores = () => {
+  getHighScore()
+    .then((data) => {
+      console.log(data);
+      data.forEach((playerScore) => {
+        scoreBoard.innerHTML += `
+        <li class="players">
+          <span class="playerName">${playerScore?.player}</span>
+          <span class="playerScore"> ${playerScore?.score}</span> 
+        </li>`;
+      });
+    }).catch((err) => console.log("rejected:", err));
+};
+
+//-------------- GAME --------------
 
 /**
  * Starts the game and creates 5 obstacles every 2 seconds
  */
 function start() {
+  userName = setUserName();
+  startTimeGame = Date.now();
   newObstacle();
   setTimeout(newObstacle, 2000);
   setTimeout(newObstacle, 4000);
@@ -44,12 +103,12 @@ function newObstacle() {
 /**
  *Container for the Obstacle
  * @param obstacle the obstacle which is being moved
- * @param startTime saved the time at which the obstacle was created
+ * @param startTimeObstacle saved the time at which the obstacle was created
  */
 class Obstacle {
-  constructor(obstacle, startTime) {
+  constructor(obstacle, startTimeObstacle) {
     this.obstacle = obstacle;
-    this.startTime = startTime;
+    this.startTimeObstacle = startTimeObstacle;
   }
 
   /**
@@ -61,11 +120,11 @@ class Obstacle {
       speed--;
     }
     this.obstacle.style.right =
-      (100 * (Date.now() - this.startTime)) / speed + "vw";
+      (100 * (Date.now() - this.startTimeObstacle)) / speed + "vw";
   }
 
   getStartTime() {
-    return this.startTime;
+    return this.startTimeObstacle;
   }
 
   getObstacle() {
@@ -108,11 +167,8 @@ function animateObstacle() {
   
   let currentTime = Date.now();
 
-  for (
-    let obstacleIndex = 0;
-    obstacleIndex < obstacleArray.length;
-    obstacleIndex++
-  ) {
+  for (let obstacleIndex = 0; obstacleIndex < obstacleArray.length; obstacleIndex++) {
+    score = Date.now() - startTimeGame;
     if (detectCollision(obstacleArray[obstacleIndex].getObstacle())) {
       gameOver();
       return;
@@ -134,12 +190,26 @@ function animateObstacle() {
   requestAnimationFrame(animateObstacle);
 }
 
+//-------------- GAME OVER --------------
+
+function removeBirds(){
+
+  document.getElementById("bird").style.display = "none";
+
+  for (let obstacleIndex = 0; obstacleIndex < obstacleArray.length; obstacleIndex++) {
+    document.body.removeChild(obstacleArray[obstacleIndex].getObstacle());
+  }
+}
+
 function gameOver() {
   document.getElementById("audio").play();
-  alert("Game Over!");
-  document.getElementById("bird").style.left = "-1000px";
-  location.reload();
+  removeBirds();
+  setHighscore(score, userName);
+  displayPlayerScores();
 }
+
+
+//-------------- CONTROLS --------------
 
 function stopBird() {
   isPressed = false;
@@ -153,7 +223,7 @@ function stopBird() {
  */
 function moveBird() {
   if (!isPressed) {
-    startTime = Date.now() - 2000;
+    startTimeBird = Date.now() - 2000;
   }
 
   isPressed = true;
@@ -169,7 +239,7 @@ function moveBird() {
 
         if (xBird < 1824) {
           if (birdSpeed <= 1) {
-            pressDuration = (Date.now() - startTime) / 1000;
+            pressDuration = (Date.now() - startTimeBird) / 1000;
             birdSpeed = pressDuration * pressDuration;
           }
 
@@ -192,7 +262,7 @@ function moveBird() {
 
         if (xBird > 0) {
           if (birdSpeed <= 1) {
-            pressDuration = (Date.now() - startTime) / 1000;
+            pressDuration = (Date.now() - startTimeBird) / 1000;
             birdSpeed = pressDuration * pressDuration;
           }
 
@@ -215,7 +285,7 @@ function moveBird() {
 
         if (yBird > 0) {
           if (birdSpeed <= 1) {
-            pressDuration = (Date.now() - startTime) / 1000;
+            pressDuration = (Date.now() - startTimeBird) / 1000;
             birdSpeed = pressDuration * pressDuration;
           }
 
@@ -238,7 +308,7 @@ function moveBird() {
 
         if (yBird < 796) {
           if (birdSpeed <= 1) {
-            pressDuration = (Date.now() - startTime) / 1000;
+            pressDuration = (Date.now() - startTimeBird) / 1000;
             birdSpeed = pressDuration * pressDuration;
           }
 
