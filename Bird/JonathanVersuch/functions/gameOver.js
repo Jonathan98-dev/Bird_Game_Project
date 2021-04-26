@@ -1,8 +1,13 @@
 import { gameManager } from "../script.js";
+import { uploadScore } from "./uploadScore.js";
+import { score, userName } from "../script.js";
 
 export const gameOver = () => {
-  document.getElementById("audio").play();
-  alert("Game Over!");
+  uploadScore(score, userName);
+  score = score;
+
+  // document.getElementById("audio").play();
+
   document.getElementById("bird").style.left = "-1000px";
-  location.reload();
+  alert(`Game Over! Your score is ${score}`);
 };

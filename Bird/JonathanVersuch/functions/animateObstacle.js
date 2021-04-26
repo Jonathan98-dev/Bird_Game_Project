@@ -15,6 +15,7 @@ export const animateObstacle = () => {
     obstacleIndex++
   ) {
     if (collisionDetection(obstacleArray[obstacleIndex].getObstacle())) {
+      document.getElementById("popUp").style.visibility = "visible";
       gameOver();
       return;
     }

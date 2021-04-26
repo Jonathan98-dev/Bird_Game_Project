@@ -1,7 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
 }
 
 body {
@@ -19,4 +22,69 @@ body {
   height: 150px;
   top: 40vh;
   /* border: 5px solid black; */
+}
+
+#score {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: center;
+  padding: 1vh 0;
+  font-size: 3.5vh;
+}
+
+#popUp {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  visibility: hidden;
+  z-index: 100;
+}
+
+#innerScoreContainer::-webkit-scrollbar {
+  width: 0 !important;
+  display: none;
+}
+
+#innerScoreContainer {
+  justify-self: center;
+  align-self: center;
+  width: 50vw;
+  height: 50vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  overflow: auto;
+  scrollbar-width: 0;
+
+  padding: 2%;
+}
+
+#yourScore {
+  height: 25%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+#onlineScores {
+  height: 75%;
+  list-style-type: none;
+}
+
+.players {
+  margin: 1vh 0;
+  padding: 1vh 0;
+  display: grid;
+  grid-template-columns: 66% 33%;
+}
+.playerName {
+  justify-self: center;
+}
+.playerScore {
+}
+
+#overlay {
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  position: absolute;
+  z-index: 99;
 }
