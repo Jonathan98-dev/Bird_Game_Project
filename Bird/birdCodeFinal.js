@@ -57,9 +57,9 @@ const getHighScore = async () => {
 const displayPlayerScores = () => {
   getHighScore()
     .then((data) => {
-      console.log(data);
+      //console.log(data);
       data.forEach((playerScore) => {
-        scoreBoard.innerHTML += `
+        onlineScores.innerHTML += `
         <li class="players">
           <span class="playerName">${playerScore?.player}</span>
           <span class="playerScore"> ${playerScore?.score}</span> 

@@ -27,25 +27,20 @@ function setUserName(){
   return user;
 }
 
-const setHighscore =  async(score, player) => {
+const setHighscore = async (score, player) => {
   const data = { score: `${score}`, player: `${player}` };
-
-  const response = fetch('http://birdapi.medialabs.at/', {
+  console.log(data);
+  await fetch('http://birdapi.medialabs.at/', {
     method: "PUT",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   })
-    .then((response) => response.json())
-    .then((data) => console.log("Success: ", data))
-    .catch((error) => {
-      console.log("Error:", error);
-    });
-};
+}
 
 const getHighScore = async () => {
-  const response = await fetch("http://birdapi.medialabs.at/");
+  const response = await fetch('http://birdapi.medialabs.at/');
   if (response.status !== 200) {
     throw new Error("cannot get scores");
   }
@@ -54,19 +49,24 @@ const getHighScore = async () => {
   return data;
 };
 
-const displayPlayerScores = () => {
-  getHighScore()
-    .then((data) => {
-      console.log(data);
+const displayPlayerScores = async () => {
+  await setHighscore(score, userName);
+
+  document.getElementById("yourScore").innerHTML = `Your score: ${score}`;
+  getHighScore().then(data => {
       data.forEach((playerScore) => {
-        scoreBoard.innerHTML += `
+        onlineScores.innerHTML += `
         <li class="players">
           <span class="playerName">${playerScore?.player}</span>
           <span class="playerScore"> ${playerScore?.score}</span> 
         </li>`;
       });
-    }).catch((err) => console.log("rejected:", err));
-};
+    }).catch((err) => {
+      console.log("rejected:", err);
+    });
+
+  document.getElementById('popUp').style.visibility = 'visible';
+}
 
 //-------------- GAME --------------
 
@@ -168,7 +168,9 @@ function animateObstacle() {
   let currentTime = Date.now();
 
   for (let obstacleIndex = 0; obstacleIndex < obstacleArray.length; obstacleIndex++) {
+    
     score = Date.now() - startTimeGame;
+
     if (detectCollision(obstacleArray[obstacleIndex].getObstacle())) {
       gameOver();
       return;
@@ -176,11 +178,7 @@ function animateObstacle() {
 
     obstacleArray[obstacleIndex].move();
 
-    if (
-      (100 * (currentTime - obstacleArray[obstacleIndex].getStartTime())) /
-        speed >=
-      100
-    ) {
+    if ((100 * (currentTime - obstacleArray[obstacleIndex].getStartTime())) /speed >=100) {
       document.body.removeChild(obstacleArray[obstacleIndex].getObstacle());
       obstacleArray.pop();
       newObstacle();
@@ -204,7 +202,6 @@ function removeBirds(){
 function gameOver() {
   document.getElementById("audio").play();
   removeBirds();
-  setHighscore(score, userName);
   displayPlayerScores();
 }
 
