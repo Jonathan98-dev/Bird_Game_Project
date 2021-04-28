@@ -28,8 +28,8 @@ function setUserName(){
 }
 
 const setHighscore = async (score, player) => {
-  const data = { score: `${score}`, player: `${player}` };
-  console.log(data);
+  const data = { score: score, player: player };
+  
   await fetch('http://birdapi.medialabs.at/', {
     method: "PUT",
     headers: {
