@@ -17,8 +17,13 @@ let yBird = 375;
 let userName;
 let score;
 
-//-------------- HIGHSCORE --------------
+//---------------------------- HIGHSCORE ----------------------------
 
+/**
+ * Opens a window prompt where the player has to enter a username
+ * If no username is enertered the name is set to "User"
+ * @returns the username that the player entered
+ */
 function setUserName(){
   let user = window.prompt("Enter your name: ");
   if (user === "") {
@@ -27,25 +32,33 @@ function setUserName(){
   return user;
 }
 
-const setHighscore =  async(score, player) => {
-  const data = { score: `${score}`, player: `${player}` };
+/**
+ * Uploads the username and the score to the server via API
+ * @param {the score after a collision} score 
+ * @param {the entered username} player 
+ */
 
-  const response = fetch('http://birdapi.medialabs.at/', {
+const setHighscore = async (score, player) => {
+  const data = { score: score, player: player };
+  
+  await fetch('http://birdapi.medialabs.at/', {
     method: "PUT",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log("Success: ", data))
-    .catch((error) => {
-      console.log("Error:", error);
-    });
-};
+    body: JSON.stringify(data)
+  }).catch((err) => {
+    console.log("Error: ", err);
+  });
+}
 
+/**
+ * Downloads the highscore list from the server
+ * @returns JSON with the scores from the server
+ */
 const getHighScore = async () => {
-  const response = await fetch("http://birdapi.medialabs.at/");
+  const response = await fetch('http://birdapi.medialabs.at/');
+  console.log(response)
   if (response.status !== 200) {
     throw new Error("cannot get scores");
   }
@@ -54,21 +67,31 @@ const getHighScore = async () => {
   return data;
 };
 
-const displayPlayerScores = () => {
-  getHighScore()
-    .then((data) => {
-      //console.log(data);
+/**
+ * calls function to upload the score & username and waits until its finished
+ * after that gets the highscorelist from the server and adds ist to the DOM
+ */
+const displayPlayerScores = async () => {
+  await setHighscore(score, userName);
+
+  getHighScore().then(data => {
       data.forEach((playerScore) => {
         onlineScores.innerHTML += `
         <li class="players">
-          <span class="playerName">${playerScore?.player}</span>
+          <span class="playerName"> ${playerScore?.player}</span>
           <span class="playerScore"> ${playerScore?.score}</span> 
         </li>`;
       });
-    }).catch((err) => console.log("rejected:", err));
-};
+    }).catch((err) => {
+      console.log("Error: ", err);
+    });
 
-//-------------- GAME --------------
+    document.getElementById("score").remove();
+    document.getElementById("yourScore").innerHTML = `Your score: ${score}`;
+    document.getElementById('popUp').style.visibility = 'visible';
+}
+
+//---------------------------- ANIMATION & COLLISION DETECTION ----------------------------
 
 /**
  * Starts the game and creates 5 obstacles every 2 seconds
@@ -144,6 +167,11 @@ function obstacleStyle(obstacle) {
   obstacle.style.right = 0;
 }
 
+/**
+ * Checks if the bird and the obstacles are colliding
+ * @param {the current obstacle which we want to check} obstacle 
+ * @returns a boolean value depending if a collision is taking place or not
+ */
 function detectCollision(obstacle) {
   positionBird = document.getElementById("bird").getBoundingClientRect();
   positionObstacle = obstacle.getBoundingClientRect();
@@ -162,13 +190,17 @@ function detectCollision(obstacle) {
 
 /**
  * goes through the obstacle array and moves the content every single frame
+ * sets the score every single frame
  */
 function animateObstacle() {
   
   let currentTime = Date.now();
 
   for (let obstacleIndex = 0; obstacleIndex < obstacleArray.length; obstacleIndex++) {
+    
     score = Date.now() - startTimeGame;
+    document.getElementById("score").innerHTML = `${userName} Score: ${score}`;
+
     if (detectCollision(obstacleArray[obstacleIndex].getObstacle())) {
       gameOver();
       return;
@@ -176,11 +208,7 @@ function animateObstacle() {
 
     obstacleArray[obstacleIndex].move();
 
-    if (
-      (100 * (currentTime - obstacleArray[obstacleIndex].getStartTime())) /
-        speed >=
-      100
-    ) {
+    if ((100 * (currentTime - obstacleArray[obstacleIndex].getStartTime())) /speed >=100) {
       document.body.removeChild(obstacleArray[obstacleIndex].getObstacle());
       obstacleArray.pop();
       newObstacle();
@@ -190,8 +218,11 @@ function animateObstacle() {
   requestAnimationFrame(animateObstacle);
 }
 
-//-------------- GAME OVER --------------
+//---------------------------- GAME OVER ----------------------------
 
+/**
+ * removes all of the objects from the DOM 
+ */
 function removeBirds(){
 
   document.getElementById("bird").style.display = "none";
@@ -201,15 +232,17 @@ function removeBirds(){
   }
 }
 
+/**
+ * plays audio and calls functions to display the player scores
+ */
 function gameOver() {
   document.getElementById("audio").play();
   removeBirds();
-  setHighscore(score, userName);
   displayPlayerScores();
 }
 
 
-//-------------- CONTROLS --------------
+//---------------------------- CONTROLS ----------------------------
 
 function stopBird() {
   isPressed = false;

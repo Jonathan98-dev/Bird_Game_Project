@@ -21,8 +21,15 @@ body {
   position: absolute;
   height: 150px;
   top: 40vh;
-  /* border: 5px solid black; */
 } 
+
+#score {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: center;
+  padding: 1vh 0;
+  font-size: 2.5vh;
+}
 
 #popUp {
   height: 100%;
